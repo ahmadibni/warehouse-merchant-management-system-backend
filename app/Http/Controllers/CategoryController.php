@@ -37,8 +37,35 @@ class CategoryController extends Controller
         }
     }
 
-    public function store(CategoryRequest $request){
+    public function store(CategoryRequest $request)
+    {
         $category = $this->categoryService->create($request->validated());
         return response()->json(new CategoryResource($category), 201);
+    }
+
+    public function update(CategoryRequest $request, int $id)
+    {
+        try {
+            $category = $this->categoryService->update($id, $request->validated());
+            return response()->json(new CategoryResource($category), 201);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Category not found'
+            ], 404);
+        }
+    }
+
+    public function destroy(int $id)
+    {
+        try {
+            $this->categoryService->delete($id);
+            return response()->json([
+                'message' => 'Category deleted successfully'
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Category not found'
+            ], 404);
+        }
     }
 }

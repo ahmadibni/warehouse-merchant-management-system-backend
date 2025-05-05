@@ -57,7 +57,7 @@ class CategoryService
             $this->deletePhoto($category->photo);
         }
 
-        return $this->categoryRepository->delete($id);
+        $this->categoryRepository->delete($id);
     }
 
     private function uploadPhoto(UploadedFile $photo)

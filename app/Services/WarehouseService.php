@@ -25,8 +25,9 @@ class WarehouseService
         return $this->warehouseRepository->getById($id, $fields ?? ['*']);
     }
 
-    public function create(array $data){
-        if(isset($data['photo']) && $data['photo'] instanceof UploadedFile){
+    public function create(array $data)
+    {
+        if (isset($data['photo']) && $data['photo'] instanceof UploadedFile) {
             $data['photo'] = $this->uploadPhoto($data['photo']);
         }
         return $this->warehouseRepository->create($data);
@@ -55,7 +56,33 @@ class WarehouseService
         );
     }
 
-    private function uploadPhoto(UploadedFile $photo){
+    public function updateProductStock(int $warehouseId, int $productId, int $stock)
+    {
+        $warehouse = $this->warehouseRepository->getById($warehouseId, ['id']);
+        $warehouse->products()->updateExistingPivot($productId, ['stock' => $stock]);
+
+        // return $warehouse->products()->find($productId);
+        // return $warehouse->products()->where('id',$productId);
+        return $warehouse->products()->where('product_id',$productId);
+    }
+
+    public function detachProduct(int $warehouseId, int $productId)
+    {
+        $warehouse = $this->warehouseRepository->getById($warehouseId, ['id']);
+        $warehouse->products()->detach($productId);
+    }
+
+    public function delete(int $id){
+        $fields = ['id', 'photo'];
+        $warehouse = $this->warehouseRepository->getById($id, $fields);
+        if(!empty($warehouse->photo)) {
+            $this->deletePhoto($warehouse->photo);
+        }
+        $this->warehouseRepository->delete($id);
+    }
+
+    private function uploadPhoto(UploadedFile $photo)
+    {
         $photo->store('warehouses', 'public');
     }
 

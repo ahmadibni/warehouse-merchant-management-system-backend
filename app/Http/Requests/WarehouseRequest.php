@@ -11,7 +11,7 @@ class WarehouseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class WarehouseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255|unique:warehouses,name,' . $this->route('warehouse'),
+            'phone' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'photo' => 'required|image|mimes:png,jpg,jpeg|max:2048',
         ];
     }
 }

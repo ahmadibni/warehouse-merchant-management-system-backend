@@ -56,13 +56,16 @@ class WarehouseService
         );
     }
 
+    /** 
+     *  Digunakan untuk mengupdate stock produk yg ada pada warehouse
+     *  ketika melakukan CRUD pada warehouse
+     */
+
     public function updateProductStock(int $warehouseId, int $productId, int $stock)
     {
         $warehouse = $this->warehouseRepository->getById($warehouseId, ['id']);
         $warehouse->products()->updateExistingPivot($productId, ['stock' => $stock]);
 
-        // return $warehouse->products()->find($productId);
-        // return $warehouse->products()->where('id',$productId);
         return $warehouse->products()->where('product_id',$productId);
     }
 

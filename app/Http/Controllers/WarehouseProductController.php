@@ -50,6 +50,5 @@ class WarehouseProductController extends Controller
             'message' => 'Product stock updated successfully',
             'data' => $warehouseProduct
         ], 201);
-
     }
 }

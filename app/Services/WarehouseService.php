@@ -56,24 +56,24 @@ class WarehouseService
         );
     }
 
-    /** 
-     *  Digunakan untuk mengupdate stock produk yg ada pada warehouse
-     *  ketika melakukan CRUD pada warehouse
-     */
-
-    public function updateProductStock(int $warehouseId, int $productId, int $stock)
-    {
-        $warehouse = $this->warehouseRepository->getById($warehouseId, ['id']);
-        $warehouse->products()->updateExistingPivot($productId, ['stock' => $stock]);
-
-        return $warehouse->products()->where('product_id',$productId);
-    }
-
     public function detachProduct(int $warehouseId, int $productId)
     {
         $warehouse = $this->warehouseRepository->getById($warehouseId, ['id']);
         $warehouse->products()->detach($productId);
     }
+
+    /**
+     *  Digunakan untuk mengupdate stock produk yg ada pada warehouse
+     *  ketika melakukan CRUD pada warehouse
+     */
+
+     public function updateProductStock(int $warehouseId, int $productId, int $stock)
+     {
+         $warehouse = $this->warehouseRepository->getById($warehouseId, ['id']);
+         $warehouse->products()->updateExistingPivot($productId, ['stock' => $stock]);
+
+         return $warehouse->products()->where('product_id',$productId);
+     }
 
     public function delete(int $id){
         $fields = ['id', 'photo'];

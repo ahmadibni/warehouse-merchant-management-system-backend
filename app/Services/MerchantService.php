@@ -32,18 +32,35 @@ class MerchantService
         return $this->merchantRepository->create($data);
     }
 
-    public function update(int $id, array $data){
+    public function update(int $id, array $data)
+    {
         $fields = ['*'];
         $merchant = $this->merchantRepository->getById($id, $fields);
 
         if (isset($data['photo']) && $data['photo'] instanceof UploadedFile) {
-            if(!empty($merchant->photo)){
+            if (!empty($merchant->photo)) {
                 $this->deletePhoto($merchant->photo);
             }
             $data['photo'] = $this->uploadPhoto($data['photo']);
         }
 
         return $this->merchantRepository->update($id, $data);
+    }
+
+    public function delete(int $id)
+    {
+        $fields = ['id', 'photo'];
+        $merchant = $this->merchantRepository->getById($id, $fields);
+        if (!empty($merchant->photo)) {
+            $this->deletePhoto($merchant->photo);
+        }
+        $this->merchantRepository->delete($id);
+    }
+
+    public function getByKeeperId(int $keeperId)
+    {
+        $fields = ['*'];
+        return $this->merchantRepository->getByKeeperId($keeperId, $fields);
     }
 
     public function uploadPhoto(UploadedFile $photo)

@@ -22,7 +22,11 @@ class MerchantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255|unique:merchants,name,' . $this->route('merchant'),
+            'address' => 'required|string|max:255',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'phone' => 'required|string|max:255',
+            'keeper_id' => 'required|exists:users,id',
         ];
     }
 }

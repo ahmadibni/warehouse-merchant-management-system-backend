@@ -16,7 +16,7 @@ class WarehouseProductRepository
 
     /**
      *  Digunakan untuk mengupdate produk yang ada di warehouse
-     *  ketika melakukan CRUD pada produk yang ada merchant
+     *  ketika melakukan mengupdate produk yang ada merchant
      */
     public function updateStock(int $warehouseId, int $productId, int $stock): WarehouseProduct
     {

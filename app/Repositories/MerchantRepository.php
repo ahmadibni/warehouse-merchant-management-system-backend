@@ -34,7 +34,7 @@ class MerchantRepository
         $merchant->delete();
     }
 
-    public function getByKeeperId($keeperId, array $fields = ['*'])
+    public function getByKeeperId(int $keeperId, array $fields = ['*'])
     {
         return Merchant::select($fields)
             ->where('keeper_id', $keeperId)

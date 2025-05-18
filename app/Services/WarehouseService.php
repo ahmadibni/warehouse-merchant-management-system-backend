@@ -48,6 +48,16 @@ class WarehouseService
         return $this->warehouseRepository->update($id, $data);
     }
 
+    public function delete(int $id)
+    {
+        $fields = ['id', 'photo'];
+        $warehouse = $this->warehouseRepository->getById($id, $fields);
+        if (!empty($warehouse->photo)) {
+            $this->deletePhoto($warehouse->photo);
+        }
+        $this->warehouseRepository->delete($id);
+    }
+
     public function attachProduct(int $warehouseId, int $productId, int $stock)
     {
         $warehouse = $this->warehouseRepository->getById($warehouseId, ['id']);
@@ -67,21 +77,12 @@ class WarehouseService
      *  ketika melakukan CRUD pada warehouse
      */
 
-     public function updateProductStock(int $warehouseId, int $productId, int $stock)
-     {
-         $warehouse = $this->warehouseRepository->getById($warehouseId, ['id']);
-         $warehouse->products()->updateExistingPivot($productId, ['stock' => $stock]);
+    public function updateProductStock(int $warehouseId, int $productId, int $stock)
+    {
+        $warehouse = $this->warehouseRepository->getById($warehouseId, ['id']);
+        $warehouse->products()->updateExistingPivot($productId, ['stock' => $stock]);
 
-         return $warehouse->products()->where('product_id',$productId);
-     }
-
-    public function delete(int $id){
-        $fields = ['id', 'photo'];
-        $warehouse = $this->warehouseRepository->getById($id, $fields);
-        if(!empty($warehouse->photo)) {
-            $this->deletePhoto($warehouse->photo);
-        }
-        $this->warehouseRepository->delete($id);
+        return $warehouse->products()->where('product_id', $productId);
     }
 
     private function uploadPhoto(UploadedFile $photo)

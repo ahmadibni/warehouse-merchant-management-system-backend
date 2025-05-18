@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\MerchantProductRepository;
+use App\Repositories\MerchantRepository;
 use App\Repositories\WarehouseProductRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -10,20 +11,23 @@ use Illuminate\Validation\ValidationException;
 class MerchantProductService
 {
     private $merchantProductRepository;
+    private $merchantRepository;
     private $warehouseProductRepository;
 
     public function __construct(
         MerchantProductRepository $merchantProductRepository,
+        MerchantRepository $merchantRepository,
         WarehouseProductRepository $warehouseProductRepository
     ) {
         $this->merchantProductRepository = $merchantProductRepository;
         $this->warehouseProductRepository = $warehouseProductRepository;
+        $this->merchantRepository = $merchantRepository;
     }
 
     public function attachProductToMerchant(array $data)
     {
 
-        return DB::transaction(function () use ($data){
+        return DB::transaction(function () use ($data) {
             //Cek apakah produknya ada di warehouse
             $warehouseProduct = $this->warehouseProductRepository->getByWarhouseAndProduct(
                 $data['warehouse_id'],
@@ -69,6 +73,28 @@ class MerchantProductService
                 'stock' => $data['stock'],
             ]);
         });
+    }
 
+    public function removeProductFromMerchant(int $merchantId, int $productId)
+    {
+        //Cek apakah ada merchant-nya
+        $merchant = $this->merchantRepository->getById($merchantId, ['id']);
+
+        if (!$merchant) {
+            throw ValidationException::withMessages([
+                'merchant_id' => 'Merchant not found',
+            ]);
+        }
+
+        //Cek apakah ada produk-nya
+        $product = $this->merchantProductRepository->getByMerchantAndProduct($merchantId, $productId);
+
+        if (!$product) {
+            throw ValidationException::withMessages([
+                'product_id' => 'Product not found in this merchant',
+            ]);
+        }
+
+        $merchant->products()->detach($productId);
     }
 }

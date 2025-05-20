@@ -44,7 +44,6 @@ class CategoryService
             }
             $data['photo'] = $this->uploadPhoto($data['photo']);
         }
-
         return $this->categoryRepository->update($id, $data);
     }
 

@@ -87,7 +87,7 @@ class WarehouseService
 
     private function uploadPhoto(UploadedFile $photo)
     {
-        $photo->store('warehouses', 'public');
+        return $photo->store('warehouses', 'public');
     }
 
     private function deletePhoto(string $photoPath)

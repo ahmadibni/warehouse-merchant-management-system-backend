@@ -65,7 +65,7 @@ class MerchantService
 
     public function uploadPhoto(UploadedFile $photo)
     {
-        $photo->store('merchants', 'public');
+        return $photo->store('merchants', 'public');
     }
 
     public function deletePhoto(string $photoPath)

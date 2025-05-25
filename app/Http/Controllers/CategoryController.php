@@ -19,7 +19,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $fields = ['name', 'photo', 'tagline'];
+        $fields = ['id', 'name', 'photo', 'tagline'];
         $category = $this->categoryService->getAll($fields);
         return response()->json(CategoryResource::collection($category));
     }

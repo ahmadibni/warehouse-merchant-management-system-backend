@@ -66,7 +66,7 @@ class CategoryService
 
     private function deletePhoto(string $photoPath)
     {
-        $relativePath = '/categories' . basename($photoPath);
+        $relativePath = 'categories/' . basename($photoPath);
         if (Storage::disk('public')->exists($relativePath)) {
             Storage::disk('public')->delete($relativePath);
         }

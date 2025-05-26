@@ -70,7 +70,7 @@ class MerchantService
 
     public function deletePhoto(string $photoPath)
     {
-        $relativePath = '/merchants' . basename($photoPath);
+        $relativePath = 'merchants/' . basename($photoPath);
         if (Storage::disk('public')->exists($relativePath)) {
             Storage::disk('public')->delete($relativePath);
         }

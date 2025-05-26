@@ -27,7 +27,7 @@ class CategoryController extends Controller
     public function show($id)
     {
         try {
-            $fields = ['name', 'photo', 'tagline'];
+            $fields = ['*'];
             $category = $this->categoryService->getById($id, $fields);
             return response()->json(new CategoryResource($category));
         } catch (ModelNotFoundException $e) {

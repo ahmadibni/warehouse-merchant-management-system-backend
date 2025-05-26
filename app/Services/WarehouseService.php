@@ -92,7 +92,7 @@ class WarehouseService
 
     private function deletePhoto(string $photoPath)
     {
-        $relativePath = '/warehouses' . basename($photoPath);
+        $relativePath = 'warehouses/' . basename($photoPath);
         if (Storage::disk('public')->exists($relativePath)) {
             Storage::disk('public')->delete($relativePath);
         }

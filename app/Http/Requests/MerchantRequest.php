@@ -24,7 +24,12 @@ class MerchantRequest extends FormRequest
         return [
             'name' => 'required|string|max:255|unique:merchants,name,' . $this->route('merchant'),
             'address' => 'required|string|max:255',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'photo' => [
+                $this->isMethod('POST') ? 'required' : 'nullable',
+                'image',
+                'mimes:png,jpg,jpeg',
+                'max:2048',
+            ],,
             'phone' => 'required|string|max:255',
             'keeper_id' => 'required|exists:users,id',
         ];

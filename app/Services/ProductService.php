@@ -36,11 +36,11 @@ class ProductService
     public function update(int $id, array $data)
     {
         $fields = ['id', 'thumbnail'];
-        $category = $this->productRepository->getById($id, $fields);
+        $product = $this->productRepository->getById($id, $fields);
 
         if (isset($data['thumbnail']) && $data['thumbnail'] instanceof UploadedFile) {
-            if (!empty($category->photo)) {
-                $this->deletePhoto($category->photo);
+            if (!empty($product->thumbnail)) {
+                $this->deletePhoto($product->thumbnail);
             }
             $data['thumbnail'] = $this->uploadPhoto($data['thumbnail']);
         }
@@ -51,10 +51,10 @@ class ProductService
     public function delete(int $id)
     {
         $fields = ['id', 'thumbnail'];
-        $category = $this->productRepository->getById($id, $fields);
+        $product = $this->productRepository->getById($id, $fields);
 
-        if (!empty($category->photo)) {
-            $this->deletePhoto($category->photo);
+        if (!empty($product->thumbnail)) {
+            $this->deletePhoto($product->thumbnail);
         }
 
         $this->productRepository->delete($id);
@@ -68,6 +68,7 @@ class ProductService
     private function deletePhoto(string $photoPath)
     {
         $relativePath = 'products/' . basename($photoPath);
+
         if (Storage::disk('public')->exists($relativePath)) {
             Storage::disk('public')->delete($relativePath);
         }

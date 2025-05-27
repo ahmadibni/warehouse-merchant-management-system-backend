@@ -11,7 +11,7 @@ class MerchantRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class MerchantRequest extends FormRequest
                 'image',
                 'mimes:png,jpg,jpeg',
                 'max:2048',
-            ],,
+            ],
             'phone' => 'required|string|max:255',
             'keeper_id' => 'required|exists:users,id',
         ];

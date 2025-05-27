@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MerchantRequest;
 use App\Http\Resources\MerchantResource;
-use App\Repositories\MerchantService;
+use App\Services\MerchantService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -50,14 +50,16 @@ class MerchantController extends Controller
         }
     }
 
-    public function destroy(int $id){
+    public function destroy(int $id)
+    {
         $this->merchantService->delete($id);
         return response()->json([
             'message' => 'Merchant deleted successfully'
         ], 201);
     }
 
-    public function getMyMerchantProfile(){
+    public function getMyMerchantProfile()
+    {
         $userId = Auth::id();
         try {
             $merchant = $this->merchantService->getByKeeperId($userId);

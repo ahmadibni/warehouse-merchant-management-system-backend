@@ -19,7 +19,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $fields = ['name', 'thumbnail', 'price'];
+        $fields = ['id', 'name', 'thumbnail', 'price', 'category_id'];
         $products = $this->productService->getAll($fields);
         return response()->json(ProductResource::collection($products));
     }

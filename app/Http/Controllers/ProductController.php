@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
-use App\Repositories\ProductService;
+use App\Services\ProductService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
@@ -27,7 +27,7 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $fields = ['name', 'thumbnail', 'price'];
+            $fields = ['*'];
             $product = $this->productService->getById($id, $fields);
             return response()->json(new ProductResource($product));
         } catch (ModelNotFoundException $e) {

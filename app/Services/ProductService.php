@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Services;
 
+use App\Repositories\ProductRepository;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 

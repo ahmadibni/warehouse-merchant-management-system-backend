@@ -23,11 +23,16 @@ class ProductRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255|unique:categories,name,' . $this->route('product'),
-            'thumbnail' => 'required|image|mimes:png,jpg,jpeg|max:2048',
+            'thumbnail' => [
+                $this->isMethod('POST') ? 'required' : 'nullable',
+                'image',
+                'mimes:png,jpg,jpeg',
+                'max:2048',
+            ],
             'about' => 'required|string',
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
-            'is_popular' => 'required\boolean',
+            'is_popular' => 'required|boolean',
         ];
     }
 }

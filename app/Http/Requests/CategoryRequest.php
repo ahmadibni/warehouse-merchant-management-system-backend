@@ -24,7 +24,12 @@ class CategoryRequest extends FormRequest
         return [
             'name' => 'required|string|max:255|unique:categories,name,' . $this->route('category'),
             'tagline' => 'required|string|max:255',
-            'photo' => $this->isMethod('POST') ? 'required|image|mimes:png,jpg,jpeg|max:2048' : 'nullable|image|mimes:png,jpg,jpeg|max:2048',
+            'photo' => [
+                $this->isMethod('POST') ? 'required' : 'nullable',
+                'image',
+                'mimes:png,jpg,jpeg',
+                'max:2048',
+            ]
         ];
     }
 }

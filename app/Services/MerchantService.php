@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Repositories\MerchantRepository;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class MerchantService
 {
